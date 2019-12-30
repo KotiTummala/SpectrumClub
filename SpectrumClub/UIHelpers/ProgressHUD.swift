@@ -22,8 +22,10 @@ class ProgressView: UIView {
     
     func prepareUI() -> Void {
         
-        UIApplication.shared.keyWindow?.addSubview(self)
-        frame = (UIApplication.shared.keyWindow?.frame)!
+        let keyWindow = UIApplication.shared.windows.filter {$0.isKeyWindow}.first
+        
+        keyWindow?.addSubview(self)
+        frame = keyWindow!.frame
         backgroundColor = UIColor.black.withAlphaComponent(0.5)
         
         let hud = UIView()

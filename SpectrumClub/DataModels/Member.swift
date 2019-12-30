@@ -11,6 +11,8 @@ struct Member: Codable {
     let age: Int?
     let name: Name?
     let email, phone: String?
+    
+    var isFavorite = false
 
     enum CodingKeys: String, CodingKey {
         case id = "_id"

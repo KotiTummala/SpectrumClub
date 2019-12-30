@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UIKit
 import SystemConfiguration
 
 class WebService {
@@ -57,16 +58,42 @@ class WebService {
                     } catch {
                         completion(.failure(.decodeError))
                     }
-            case .failure(_):
+                case .failure(_):
                     completion(.failure(.apiError))
                 }
          }.resume()
+    }
+    
+    private func fetchData(with apiURL: URL, completion: @escaping (Result<UIImage, APIServiceError>) -> ()) {
+        
+        urlSession.dataTask(with: apiURL) { (result) in
+           switch result {
+               case .success(let (response, data)):
+                   guard let statusCode = (response as? HTTPURLResponse)?.statusCode, 200..<299 ~= statusCode else {
+                       completion(.failure(.invalidResponse))
+                       return
+                   }
+                   guard let image = UIImage(data: data) else {
+                    completion(.failure(.noData))
+                       return
+                   }
+                   completion(.success(image))
+           case .failure(_):
+                   completion(.failure(.apiError))
+               }
+        }.resume()
+        
     }
     
     func fetchCompanies(with endPoint: String, result: @escaping (Result<Company, APIServiceError>) -> Void) {
         let companiesURL = baseURL
             .appendingPathComponent(endPoint)
         fetchResources(url: companiesURL, completion: result)
+    }
+    
+    func fetchImage(from url: String, result: @escaping (Result<UIImage, APIServiceError>) -> ()) {
+        let url = URL(string: url)!
+        fetchData(with: url, completion: result)
     }
     
     //helper method to check for network reachabilty.

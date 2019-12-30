@@ -27,6 +27,12 @@ extension Name {
     init(fromURL url: URL) throws {
         try self.init(data: try Data(contentsOf: url))
     }
+    
+    var description: String {
+        let firstName = first ?? ""
+        let lastName = last ?? ""
+        return firstName + " " + lastName
+    }
 
     func with(
         first: String?? = nil,
