@@ -71,3 +71,52 @@ extension Member {
         return String(data: try self.jsonData(), encoding: encoding)
     }
 }
+
+extension Member {
+    func nameCompare(e2: Member) -> ComparisonResult {
+        guard let firstName = name?.description, let secondName = e2.name?.description else {
+            return .orderedAscending
+        }
+        return firstName.compare(secondName)
+    }
+    
+    func ageCompare(e2: Member) -> ComparisonResult {
+        guard let firstAge = age, let secondAge = e2.age else {
+            return .orderedAscending
+        }
+        return firstAge > secondAge ? .orderedAscending : .orderedDescending
+    }
+}
+extension ComparisonResult {
+    func flip() -> ComparisonResult {
+        switch self {
+        case .orderedAscending:
+            return .orderedDescending
+        case .orderedDescending:
+            return .orderedAscending
+        default:
+            return .orderedSame
+        }
+    }
+}
+
+infix operator <<<
+func <<< <A, B, C>(f: @escaping (B) -> () -> C, g: @escaping (A) -> (A) -> B) -> (A) -> (A) -> C {
+    return { x in { y in f(g(x)(y))() } }
+}
+extension Sequence {
+    typealias AttributeCompare = (Iterator.Element) -> (Iterator.Element) -> ComparisonResult
+    
+    func sorted(by comparisons: AttributeCompare...) -> [Iterator.Element] {
+        return self.sorted { e1, e2 in
+            for comparison in comparisons {
+                let comparisonResult = comparison(e1)(e2)
+                guard comparisonResult == .orderedSame
+                    else {
+                        return comparisonResult == .orderedAscending
+                }
+            }
+            return false
+        }
+    }
+}

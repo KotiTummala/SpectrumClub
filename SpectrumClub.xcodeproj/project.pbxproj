@@ -19,6 +19,7 @@
 		3A5DE1C023BA236100089636 /* WebService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A5DE1BF23BA236100089636 /* WebService.swift */; };
 		3A5DE1C223BA264300089636 /* JSONSchemaSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A5DE1C123BA264300089636 /* JSONSchemaSupport.swift */; };
 		3A5DE1C523BA28D500089636 /* ProgressHUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A5DE1C423BA28D500089636 /* ProgressHUD.swift */; };
+		3ACE973723BB16D100F4BFBD /* SortOptionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ACE973623BB16D100F4BFBD /* SortOptionsViewController.swift */; };
 		9809128D23BA403100E822C8 /* CachedImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9809128B23BA403100E822C8 /* CachedImageView.swift */; };
 		9809128E23BA403100E822C8 /* UIImageExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9809128C23BA403100E822C8 /* UIImageExtension.swift */; };
 		9809129223BA4BCA00E822C8 /* MembersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9809129123BA4BCA00E822C8 /* MembersViewController.swift */; };
@@ -40,6 +41,7 @@
 		3A5DE1BF23BA236100089636 /* WebService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebService.swift; sourceTree = "<group>"; };
 		3A5DE1C123BA264300089636 /* JSONSchemaSupport.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSONSchemaSupport.swift; sourceTree = "<group>"; };
 		3A5DE1C423BA28D500089636 /* ProgressHUD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressHUD.swift; sourceTree = "<group>"; };
+		3ACE973623BB16D100F4BFBD /* SortOptionsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SortOptionsViewController.swift; sourceTree = "<group>"; };
 		9809128B23BA403100E822C8 /* CachedImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CachedImageView.swift; sourceTree = "<group>"; };
 		9809128C23BA403100E822C8 /* UIImageExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIImageExtension.swift; sourceTree = "<group>"; };
 		9809129123BA4BCA00E822C8 /* MembersViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MembersViewController.swift; sourceTree = "<group>"; };
@@ -125,6 +127,7 @@
 			children = (
 				3A5DE1A323BA16F400089636 /* ViewController.swift */,
 				9809129123BA4BCA00E822C8 /* MembersViewController.swift */,
+				3ACE973623BB16D100F4BFBD /* SortOptionsViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -209,6 +212,7 @@
 				3A5DE1C223BA264300089636 /* JSONSchemaSupport.swift in Sources */,
 				3A5DE1C023BA236100089636 /* WebService.swift in Sources */,
 				3A5DE1A423BA16F400089636 /* ViewController.swift in Sources */,
+				3ACE973723BB16D100F4BFBD /* SortOptionsViewController.swift in Sources */,
 				3A5DE1A023BA16F400089636 /* AppDelegate.swift in Sources */,
 				3A5DE1A223BA16F400089636 /* SceneDelegate.swift in Sources */,
 				3A5DE1BB23BA1D5800089636 /* Name.swift in Sources */,

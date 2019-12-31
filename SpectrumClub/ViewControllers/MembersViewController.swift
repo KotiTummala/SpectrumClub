@@ -24,13 +24,14 @@ class MembersViewController: UIViewController {
     }
     
     @IBOutlet weak private var tableView: UITableView!
+    
+    var selectedSortOptions = (option: "Name", isForAscending: true)
 
     //MARK:- View lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.tableFooterView = UIView(frame: .zero)
-        tableView.reloadData()
-        
+        sort(option: "Name")
         setupSearchController()
     }
 
@@ -57,7 +58,6 @@ extension MembersViewController {
         navigationItem.searchController = searchController
         definesPresentationContext = true
     }
-    
     /**
     
      Helper function to filter the companies based company name  search text
@@ -75,6 +75,81 @@ extension MembersViewController {
             return member.name!.description.lowercased().contains(searchText.lowercased())
       }
       tableView.reloadData()
+    }
+    
+    //MARK:- Sort Functionality
+    
+    @IBAction private func sortButtonClicked(_ sender: UIBarButtonItem) {
+        showSortOptionsVC()
+    }
+    /**
+    
+     Helper function to ahow the sort options VC
+     
+    - parameters:
+       - nil
+    - returns:
+        -nil
+     ---
+    - Author:
+       Koti Tummala
+    */
+    private func showSortOptionsVC() {
+        if let vc = storyboard?.instantiateViewController(identifier: "SortOptionsViewController") as? SortOptionsViewController {
+            vc.selectedOptions = selectedSortOptions
+            vc.onCloseSelected = {[unowned self] in
+                self.dismiss(animated: true, completion: nil)
+            }
+            vc.onMenuOptionClicked = {[unowned self] option, isForAsc in
+                self.selectedSortOptions.option = option
+                self.selectedSortOptions.isForAscending = isForAsc
+                self.sort(option: option, isForAscending: isForAsc)
+                self.dismiss(animated: false, completion: nil)
+            }
+            present(vc, animated: false, completion: nil)
+        }
+    }
+    
+    /**
+     Helper function to sort the companies array on selection of the option from Actionsheet
+     
+    - parameters:
+       - option: String value - selected sort option Actionsheet.
+    
+    - returns:
+       - nil
+     ---
+    - Author:
+       Koti Tummala
+    */
+    private func sort(option: String, isForAscending: Bool = true) {
+        if option == "Name" {
+            if isForAscending {
+                members.sort(by: { $0.name!.description < $1.name!.description })
+            } else {
+                members.sort(by: { $0.name!.description > $1.name!.description })
+            }
+        } else if option == "Age" {
+            if isForAscending {
+                members.sort(by: { $0.age! < $1.age! })
+            } else {
+                members.sort(by: { $0.age! > $1.age! })
+            }
+        } else {
+            members = members!
+                .sorted(by:
+                    Member.nameCompare,        //--> Name
+                    Member.ageCompare         //-->Age#
+            )
+        }
+        reloadTable()
+    }
+    
+    //Helper function to reload the table from Main thread.
+    private func reloadTable() {
+        DispatchQueue.main.async {
+            self.tableView.reloadData()
+        }
     }
 }
 

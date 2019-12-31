@@ -134,7 +134,7 @@ extension ViewController {
     }
     /**
     
-     Helper function to return the random color
+     Helper function to show the action sheet with sort options
      
     - parameters:
        - title: String value to show the title of the action sheet
