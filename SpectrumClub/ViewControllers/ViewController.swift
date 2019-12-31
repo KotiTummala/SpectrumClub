@@ -29,11 +29,13 @@ class ViewController: UIViewController {
     //Sort options to display options in actionsheet
     let sortOptions: [String] = ["Name Ascending", "Name Descending"]
 
+    //MARK:- View lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         tableView.tableFooterView = UIView(frame: .zero)
         getCompanies()
+        //Setup the SearchController UI
         setupSearchController()
     }
     
@@ -208,12 +210,26 @@ extension ViewController {
         }
     }
     
+    //Helper function to reload the table from Main thread.
     private func reloadTable() {
         DispatchQueue.main.async {
             self.tableView.reloadData()
         }
     }
     
+    /**
+     Helper function to update the company Status(Favorite/Follow)
+     
+    - parameters:
+       - isForFavorite: Bool value - true means we are updating the favorite status, else updating the follow status of the company.
+       - selectedCell: UITableViewCell - To get the selected company object to update
+    
+    - returns:
+       - nil
+     ---
+    - Author:
+       Koti Tummala
+    */
     private func updateCompanyStatus(isForFavorite: Bool, selectedCell: CompanyCell) {
         if let selectedIndexPath = self.tableView.indexPath(for: selectedCell) {
             let company = (self.isFiltering) ? self.filteredCompanies[selectedIndexPath.row]: self.companies[selectedIndexPath.row]

@@ -25,6 +25,7 @@ class MembersViewController: UIViewController {
     
     @IBOutlet weak private var tableView: UITableView!
 
+    //MARK:- View lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.tableFooterView = UIView(frame: .zero)
@@ -32,7 +33,23 @@ class MembersViewController: UIViewController {
         
         setupSearchController()
     }
+
+}
+
+extension MembersViewController {
+    //MARK:- Search Functionality
+    /**
     
+     Helper function to set  the SearchController
+     
+    - parameters:
+       - nil
+    - returns:
+        -nil
+     ---
+    - Author:
+       Koti Tummala
+    */
     private func setupSearchController() {
         searchController.searchResultsUpdater = self
         searchController.obscuresBackgroundDuringPresentation = false
@@ -41,13 +58,24 @@ class MembersViewController: UIViewController {
         definesPresentationContext = true
     }
     
+    /**
+    
+     Helper function to filter the companies based company name  search text
+     
+    - parameters:
+       - searchText: String -  Text entered  in search bar
+    - returns:
+        -nil
+     ---
+    - Author:
+       Koti Tummala
+    */
     private func filterContentForSearchText(_ searchText: String) {
         filteredMembers = members.filter { (member: Member) -> Bool in
             return member.name!.description.lowercased().contains(searchText.lowercased())
       }
       tableView.reloadData()
     }
-
 }
 
 extension MembersViewController: UITableViewDataSource {
