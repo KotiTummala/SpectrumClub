@@ -65,9 +65,8 @@ extension ViewController {
             switch result {
                 case .success(let company):
                     self.companies = company
-                    DispatchQueue.main.async {
-                        self.tableView.reloadData()
-                    }
+                    self.sort()
+                    self.reloadTable()
                 case .failure(let error):
                     if error == .noNetwork { //Offline(No internet connection)
                         Alert.showInternetFailureAlert(on: self)
@@ -116,13 +115,20 @@ extension ViewController {
             return company.company!.lowercased().contains(searchText.lowercased())
       }
       
-      tableView.reloadData()
+      reloadTable()
     }
     
     //MARK:- Sort Functionality
     
-    @IBAction private func filterButtonClicked(_ sender: UIBarButtonItem) {
-        showActionSheet(with: "Select", message: "Option to Sort")
+    @IBAction private func sortButtonClicked(_ sender: UIBarButtonItem) {
+        if let title = sender.title, title == "A-Z" {
+            sender.title = "Z-A"
+            sort(isForAscending: false)
+        } else {
+            sender.title = "A-Z"
+            sort(isForAscending: true)
+        }
+        //showActionSheet(with: "Select", message: "Option to Sort")
     }
     /**
     
@@ -146,7 +152,11 @@ extension ViewController {
                 guard let actionTitle = action.title else {
                     return
                 }
-                self?.sort(for: actionTitle)
+                if actionTitle.contains("Ascending") {
+                    self?.sort(isForAscending: true)
+                } else {
+                   self?.sort(isForAscending: false)
+                }
             })
             alert.addAction(action)
         }
@@ -188,15 +198,33 @@ extension ViewController {
     - Author:
        Koti Tummala
     */
-    private func sort(for option: String) {
-        searchController.isActive = false
-        searchController.isEditing = false
-        if option.contains("Ascending") {
+    private func sort(isForAscending: Bool = true) {
+        if isForAscending {
             companies.sort(by: { $0.company! < $1.company! })
-            tableView.reloadData()
+            reloadTable()
         } else {
             companies.sort(by: { $0.company! > $1.company! })
-            tableView.reloadData()
+            reloadTable()
+        }
+    }
+    
+    private func reloadTable() {
+        DispatchQueue.main.async {
+            self.tableView.reloadData()
+        }
+    }
+    
+    private func updateCompanyStatus(isForFavorite: Bool, selectedCell: CompanyCell) {
+        if let selectedIndexPath = self.tableView.indexPath(for: selectedCell) {
+            let company = (self.isFiltering) ? self.filteredCompanies[selectedIndexPath.row]: self.companies[selectedIndexPath.row]
+            if isForFavorite {
+                company.isFavorite = !company.isFavorite
+            } else {
+                company.isFollowing = !company.isFollowing
+            }
+            DispatchQueue.main.async {
+                self.tableView.reloadRows(at: [selectedIndexPath], with: .none)
+            }
         }
     }
 }
@@ -218,12 +246,12 @@ extension ViewController: UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: "CompanyCell", for: indexPath) as! CompanyCell
         let company = (isFiltering) ? self.filteredCompanies[indexPath.row]: self.companies[indexPath.row]
         cell.setData(company: company)
-        cell.onFavoriteClicked = { selectedCell in
-            
+        cell.onFavoriteClicked = { [unowned self] selectedCell in
+            self.updateCompanyStatus(isForFavorite: true, selectedCell: selectedCell)
         }
         
         cell.onFollowClicked = { selectedCell in
-            
+           self.updateCompanyStatus(isForFavorite: false, selectedCell: selectedCell)
         }
         return cell
     }
@@ -267,6 +295,9 @@ class CompanyCell: UITableViewCell {
     @IBOutlet private weak var descriptionLabel: UILabel!
     @IBOutlet private weak var companyLogoImageView: CachedImageView!
     
+    @IBOutlet private weak var favoriteButton: UIButton!
+    @IBOutlet private weak var followButton: UIButton!
+    
     var onFollowClicked: ((CompanyCell)->())?
     var onFavoriteClicked: ((CompanyCell)->())?
     
@@ -290,6 +321,11 @@ class CompanyCell: UITableViewCell {
         } else {
             companyLogoImageView.image = UIImage(named: "")
         }
+        var imageName = company.isFavorite ? "heart.fill" : "heart"
+        favoriteButton.setImage(UIImage(systemName: imageName), for: .normal)
+        
+        imageName = company.isFollowing ? "bookmark.fill" : "bookmark"
+        followButton.setImage(UIImage(systemName: imageName), for: .normal)
     }
     
     @IBAction private func favoriteButtonClicked(_ sender: UIButton) {

@@ -6,7 +6,7 @@
 import Foundation
 
 // MARK: - Member
-struct Member: Codable {
+class Member: Codable {
     let id: String?
     let age: Int?
     let name: Name?
@@ -18,23 +18,32 @@ struct Member: Codable {
         case id = "_id"
         case age, name, email, phone
     }
+
+    init(id: String?, age: Int?, name: Name?, email: String?, phone: String?) {
+        self.id = id
+        self.age = age
+        self.name = name
+        self.email = email
+        self.phone = phone
+    }
 }
 
 // MARK: Member convenience initializers and mutators
 
 extension Member {
-    init(data: Data) throws {
-        self = try newJSONDecoder().decode(Member.self, from: data)
+    convenience init(data: Data) throws {
+        let me = try newJSONDecoder().decode(Member.self, from: data)
+        self.init(id: me.id, age: me.age, name: me.name, email: me.email, phone: me.phone)
     }
 
-    init(_ json: String, using encoding: String.Encoding = .utf8) throws {
+    convenience init(_ json: String, using encoding: String.Encoding = .utf8) throws {
         guard let data = json.data(using: encoding) else {
             throw NSError(domain: "JSONDecoding", code: 0, userInfo: nil)
         }
         try self.init(data: data)
     }
 
-    init(fromURL url: URL) throws {
+    convenience init(fromURL url: URL) throws {
         try self.init(data: try Data(contentsOf: url))
     }
 

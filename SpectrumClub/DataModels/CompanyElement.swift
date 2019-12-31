@@ -6,35 +6,46 @@
 import Foundation
 
 // MARK: - CompanyElement
-struct CompanyElement: Codable {
+class CompanyElement: Codable {
     let id, company, website: String?
     let logo: String?
     let about: String?
+    let members: [Member]?
+    
     var isFavorite: Bool = false
     var isFollowing: Bool = false
-    let members: [Member]?
 
     enum CodingKeys: String, CodingKey {
         case id = "_id"
         case company, website, logo, about, members
+    }
+
+    init(id: String?, company: String?, website: String?, logo: String?, about: String?, members: [Member]?) {
+        self.id = id
+        self.company = company
+        self.website = website
+        self.logo = logo
+        self.about = about
+        self.members = members
     }
 }
 
 // MARK: CompanyElement convenience initializers and mutators
 
 extension CompanyElement {
-    init(data: Data) throws {
-        self = try newJSONDecoder().decode(CompanyElement.self, from: data)
+    convenience init(data: Data) throws {
+        let me = try newJSONDecoder().decode(CompanyElement.self, from: data)
+        self.init(id: me.id, company: me.company, website: me.website, logo: me.logo, about: me.about, members: me.members)
     }
 
-    init(_ json: String, using encoding: String.Encoding = .utf8) throws {
+    convenience init(_ json: String, using encoding: String.Encoding = .utf8) throws {
         guard let data = json.data(using: encoding) else {
             throw NSError(domain: "JSONDecoding", code: 0, userInfo: nil)
         }
         try self.init(data: data)
     }
 
-    init(fromURL url: URL) throws {
+    convenience init(fromURL url: URL) throws {
         try self.init(data: try Data(contentsOf: url))
     }
 
@@ -64,4 +75,3 @@ extension CompanyElement {
         return String(data: try self.jsonData(), encoding: encoding)
     }
 }
-

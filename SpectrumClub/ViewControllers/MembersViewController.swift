@@ -57,10 +57,9 @@ extension MembersViewController: UITableViewDataSource {
         cell.setData(member: member)
         cell.onFavoriteClicked = {[unowned self] selectedCell in
             if let selectedIndexPath = self.tableView.indexPath(for: selectedCell) {
-                var member = (self.isFiltering) ? self.filteredMembers[selectedIndexPath.row]: self.members[selectedIndexPath.row]
+                let member = (self.isFiltering) ? self.filteredMembers[selectedIndexPath.row]: self.members[selectedIndexPath.row]
                 member.isFavorite = !member.isFavorite
-                cell.setData(member: member)
-                //self.tableView.reloadRows(at: [selectedIndexPath], with: .none)
+                self.tableView.reloadRows(at: [selectedIndexPath], with: .none)
             }
         }
         return cell

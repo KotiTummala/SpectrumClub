@@ -44,4 +44,3 @@ func newJSONEncoder() -> JSONEncoder {
     }
     return encoder
 }
-

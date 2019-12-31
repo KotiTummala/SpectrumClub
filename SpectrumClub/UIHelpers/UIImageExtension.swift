@@ -22,6 +22,7 @@ extension UIImage {
                     completion(image)
                 case .failure(let error):
                     print(error.localizedDescription)
+                    completion(nil)
             }
         })
     }

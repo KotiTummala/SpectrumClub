@@ -6,25 +6,31 @@
 import Foundation
 
 // MARK: - Name
-struct Name: Codable {
+class Name: Codable {
     let first, last: String?
+
+    init(first: String?, last: String?) {
+        self.first = first
+        self.last = last
+    }
 }
 
 // MARK: Name convenience initializers and mutators
 
 extension Name {
-    init(data: Data) throws {
-        self = try newJSONDecoder().decode(Name.self, from: data)
+    convenience init(data: Data) throws {
+        let me = try newJSONDecoder().decode(Name.self, from: data)
+        self.init(first: me.first, last: me.last)
     }
 
-    init(_ json: String, using encoding: String.Encoding = .utf8) throws {
+    convenience init(_ json: String, using encoding: String.Encoding = .utf8) throws {
         guard let data = json.data(using: encoding) else {
             throw NSError(domain: "JSONDecoding", code: 0, userInfo: nil)
         }
         try self.init(data: data)
     }
 
-    init(fromURL url: URL) throws {
+    convenience init(fromURL url: URL) throws {
         try self.init(data: try Data(contentsOf: url))
     }
     

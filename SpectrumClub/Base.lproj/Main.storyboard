@@ -41,7 +41,7 @@
                                                             <nil key="textColor"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="251" text="Label" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Rx9-uO-mXq">
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="251" text="Label" textAlignment="justified" lineBreakMode="characterWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Rx9-uO-mXq">
                                                             <rect key="frame" x="0.0" y="79.5" width="261" height="20.5"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                             <nil key="textColor"/>
@@ -54,16 +54,16 @@
                                                     <subviews>
                                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wPg-01-wgc">
                                                             <rect key="frame" x="0.0" y="0.0" width="30" height="22"/>
-                                                            <color key="tintColor" systemColor="systemYellowColor" red="1" green="0.80000000000000004" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                            <state key="normal" title="Button" image="heart.fill" catalog="system"/>
+                                                            <color key="tintColor" systemColor="systemRedColor" red="1" green="0.23137254900000001" blue="0.18823529410000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                            <state key="normal" image="heart" catalog="system"/>
                                                             <connections>
                                                                 <action selector="favoriteButtonClicked:" destination="36a-At-oGb" eventType="touchUpInside" id="WzB-qN-VGG"/>
                                                             </connections>
                                                         </button>
                                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uz3-tP-NoH">
                                                             <rect key="frame" x="0.0" y="42" width="30" height="22"/>
-                                                            <color key="tintColor" systemColor="systemOrangeColor" red="1" green="0.58431372550000005" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                            <state key="normal" title="Button" image="bookmark" catalog="system"/>
+                                                            <color key="tintColor" systemColor="systemBlueColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                            <state key="normal" image="bookmark" catalog="system"/>
                                                             <connections>
                                                                 <action selector="followButtonClicked:" destination="36a-At-oGb" eventType="touchUpInside" id="QbZ-IQ-0qZ"/>
                                                             </connections>
@@ -95,6 +95,8 @@
                                         <connections>
                                             <outlet property="companyLogoImageView" destination="d0o-kx-gUE" id="XuG-Cq-Q3k"/>
                                             <outlet property="descriptionLabel" destination="Rx9-uO-mXq" id="584-B3-a8J"/>
+                                            <outlet property="favoriteButton" destination="wPg-01-wgc" id="y7Q-6a-84J"/>
+                                            <outlet property="followButton" destination="uz3-tP-NoH" id="AX5-9m-s2M"/>
                                             <outlet property="nameLabel" destination="V50-Rd-mqG" id="7VH-bh-XxJ"/>
                                             <outlet property="websiteLabel" destination="Oeh-M2-ZAk" id="KBP-eF-dWZ"/>
                                         </connections>
@@ -116,9 +118,10 @@
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <navigationItem key="navigationItem" title="Companies" id="lIF-tD-Ml6">
-                        <barButtonItem key="rightBarButtonItem" image="wand.and.stars" catalog="system" id="Wd6-cU-Sdi">
+                        <barButtonItem key="rightBarButtonItem" title="A-Z" id="Wd6-cU-Sdi">
+                            <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <connections>
-                                <action selector="filterButtonClicked:" destination="BYZ-38-t0r" id="m2t-tN-fdZ"/>
+                                <action selector="sortButtonClicked:" destination="BYZ-38-t0r" id="8Iw-Af-0bK"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -185,7 +188,7 @@
                                                     <subviews>
                                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HCR-HU-eDH">
                                                             <rect key="frame" x="0.0" y="0.0" width="30" height="22"/>
-                                                            <color key="tintColor" systemColor="systemYellowColor" red="1" green="0.80000000000000004" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                            <color key="tintColor" systemColor="systemRedColor" red="1" green="0.23137254900000001" blue="0.18823529410000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                             <state key="normal" image="heart" catalog="system"/>
                                                             <connections>
                                                                 <action selector="favoriteButtonClicked:" destination="MG8-OU-Es4" eventType="touchUpInside" id="yDt-UT-xlW"/>
@@ -263,7 +266,5 @@
     <resources>
         <image name="bookmark" catalog="system" width="56" height="64"/>
         <image name="heart" catalog="system" width="64" height="54"/>
-        <image name="heart.fill" catalog="system" width="64" height="54"/>
-        <image name="wand.and.stars" catalog="system" width="64" height="56"/>
     </resources>
 </document>

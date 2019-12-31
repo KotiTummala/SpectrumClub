@@ -58,9 +58,11 @@ class CachedImageView: UIImageView {
         
         self.imageEndPoint = endPoint
         
-        func setImage(_ image: UIImage) {
+        func setImage(_ image: UIImage?) {
             DispatchQueue.main.async {
-                self.image = image
+                if let imageFromCache = image {
+                    self.image = imageFromCache
+                }
                 self.activityIndicatorView.stopAnimating()
             }
         }
@@ -71,10 +73,7 @@ class CachedImageView: UIImageView {
         }
         
         UIImage.cacheImage(from: endPoint) { (image) in
-            guard let imageFromCache = image else {
-                return
-            }
-            setImage(imageFromCache)
+            setImage(image)
         }
     }
 }
